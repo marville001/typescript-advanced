@@ -1,0 +1,27 @@
+
+/*
+ * Decorator - a function you apply to a certail class in a certain way
+ * Executed when the class is defined not when it is instantiated
+ *
+ *
+ */
+
+function Logger(constructor: Function) {
+	console.log('Logging....')
+	console.log(constructor);
+	
+}
+
+@Logger
+class Person{
+	name = "Max";
+
+	constructor() {
+		console.log("Constructor");
+		
+	}
+}
+
+const pers = new Person()
+
+console.log(pers);
