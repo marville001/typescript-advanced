@@ -120,10 +120,12 @@ class ProjectItem extends Component {
         }
     }
     drapStartHandler(event) {
-        console.log(event);
+        var _a;
+        (_a = event.dataTransfer) === null || _a === void 0 ? void 0 : _a.setData("text/plain", this.project.id);
+        event.dataTransfer.effectAllowed = "move";
     }
-    drapEndHandler(_event) {
-        console.log("DragEnd");
+    drapEndHandler(event) {
+        console.log(event);
     }
     configure() {
         this.element.addEventListener('dragstart', this.drapStartHandler);
@@ -139,6 +141,12 @@ class ProjectItem extends Component {
 __decorate([
     autobind
 ], ProjectItem.prototype, "drapStartHandler", null);
+__decorate([
+    autobind
+], ProjectItem.prototype, "drapEndHandler", null);
+__decorate([
+    autobind
+], ProjectItem.prototype, "configure", null);
 class ProjectList extends Component {
     constructor(type) {
         super("project-list", "app", false, `${type}-projects`);
@@ -147,11 +155,15 @@ class ProjectList extends Component {
         this.configure();
         this.renderContent();
     }
-    dragOverHandler(_event) {
-        const listEl = this.element.querySelector("ul");
-        listEl.classList.add("droppable");
+    dragOverHandler(event) {
+        if (event.dataTransfer && event.dataTransfer.types[0] === "text/plain") {
+            event.preventDefault();
+            const listEl = this.element.querySelector("ul");
+            listEl.classList.add("droppable");
+        }
     }
-    dropHandler(_event) {
+    dropHandler(event) {
+        console.log(event);
     }
     dragLeaveHandler(_event) {
         const listEl = this.element.querySelector("ul");
