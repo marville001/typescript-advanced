@@ -119,7 +119,16 @@ class ProjectItem extends Component {
             return `${this.project.people} people`;
         }
     }
-    configure() { }
+    drapStartHandler(event) {
+        console.log(event);
+    }
+    drapEndHandler(_event) {
+        console.log("DragEnd");
+    }
+    configure() {
+        this.element.addEventListener('dragstart', this.drapStartHandler);
+        this.element.addEventListener('dragend', this.drapEndHandler);
+    }
     renderContent() {
         this.element.querySelector("h2").textContent = this.project.title;
         this.element.querySelector("h3").textContent =
@@ -127,6 +136,9 @@ class ProjectItem extends Component {
         this.element.querySelector("p").textContent = this.project.description;
     }
 }
+__decorate([
+    autobind
+], ProjectItem.prototype, "drapStartHandler", null);
 class ProjectList extends Component {
     constructor(type) {
         super("project-list", "app", false, `${type}-projects`);

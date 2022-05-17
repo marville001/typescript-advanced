@@ -1,5 +1,17 @@
-// Project Type
 
+// Drag & Drop Interfaces
+interface Draggable { 
+    drapStartHandler(event: DragEvent): void;
+    drapEndHandler(event: DragEvent): void; 
+}
+
+interface DragTarget {
+    dragOverHandler(event: DragEvent): void;
+    dropHandler(event: DragEvent): void;
+    dragLeaveHandler(event: DragEvent): void;
+}
+
+// Project Type
 enum ProjectStatus {
     Active,
     Finished,
@@ -177,7 +189,7 @@ abstract class Component<T extends HTMLElement, U extends HTMLElement> {
 
 // ProjectItem Class
 
-class ProjectItem extends Component<HTMLUListElement, HTMLLIElement> {
+class ProjectItem extends Component<HTMLUListElement, HTMLLIElement> implements Draggable {
     private project: Project;
 
     get persons() {
@@ -196,7 +208,21 @@ class ProjectItem extends Component<HTMLUListElement, HTMLLIElement> {
         this.renderContent();
     }
 
-    configure() {}
+    @autobind
+    drapStartHandler(event: DragEvent): void {
+        console.log(event);
+        
+    }
+    
+    drapEndHandler(_event: DragEvent): void {
+        console.log("DragEnd");
+        
+    }
+
+    configure() {
+        this.element.addEventListener('dragstart', this.drapStartHandler)
+        this.element.addEventListener('dragend', this.drapEndHandler)
+    }
 
     renderContent() {
         this.element.querySelector("h2")!.textContent = this.project.title;
